@@ -1,0 +1,32 @@
+variables:
+  REGISTRY_HOST: ipe-wim-gitlab.fzi.de:5000
+  IMAGE_NAME: $REGISTRY_HOST/$CI_PROJECT_PATH
+  MAVEN_CLI_OPTS: -DskipTests --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true
+  GIT_REPO_ORIGIN: ssh://git@ipe-wim-gitlab.fzi.de:2222
+  GIT_STRATEGY: clone
+
+stages:
+  - build
+  - docker
+
+build:
+  image: maven:3-jdk-8
+  stage: build
+  script:
+    - echo "$MAVEN_CREDENTIALS" > /root/.m2/settings.xml
+    - mvn clean package -DskipTests
+    - mvn deploy
+  artifacts:
+    paths:
+      - ./target/*.jar
+    expire_in:  1 hour
+
+docker-backend:
+   image: docker:17.06.0-ce
+   stage: docker
+   dependencies:
+     - build
+   script:
+     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $REGISTRY_HOST
+     - docker build --pull -t $IMAGE_NAME:dev .
+     - docker push $IMAGE_NAME:dev
