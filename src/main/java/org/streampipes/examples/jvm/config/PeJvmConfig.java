@@ -33,7 +33,7 @@ public enum PeJvmConfig implements PeConfig {
 
 	PeJvmConfig() {
 		config = SpConfig.getSpConfig(SERVICE_ID);
-		config.register(HOST, "examples-jvm", "Hostname for the pe esper");
+		config.register(HOST, "pe-examples-jvm", "Hostname for the pe esper");
 		config.register(PORT, 8090, "Port for the pe esper");
 
 		config.register(ICON_HOST, "backend", "Hostname for the icon host");
