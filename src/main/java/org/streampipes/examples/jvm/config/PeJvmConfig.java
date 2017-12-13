@@ -29,7 +29,7 @@ public enum PeJvmConfig implements PeConfig {
 	public final static String iconBaseUrl;
 
 	private final static String SERVICE_ID = "pe/org.streampipes.pe.jvm.examples";
-	private final static String SERVICE_NAME = "examples-jvm";
+	private final static String SERVICE_NAME = "service_name";
 
 	PeJvmConfig() {
 		config = SpConfig.getSpConfig(SERVICE_ID);
@@ -50,7 +50,7 @@ public enum PeJvmConfig implements PeConfig {
 		config.register(JMS_HOST, "tcp://activemq", "Hostname for pe actions service for active mq");
 		config.register(JMS_PORT, 61616, "Port for pe actions service for active mq");
 
-		config.register(SERVICE_NAME, "Processor esper", "The name of the service");
+		config.register(SERVICE_NAME, "Examples JVM", "The name of the service");
 
 	}
 	
