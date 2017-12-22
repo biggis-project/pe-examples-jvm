@@ -8,6 +8,7 @@ variables:
 stages:
   - build
   - docker
+  - deploy
   - release
 
 build:
@@ -16,10 +17,24 @@ build:
   script:
     - echo "$MAVEN_CREDENTIALS" > /root/.m2/settings.xml
     - mvn clean package -DskipTests
-    - mvn deploy
   artifacts:
     paths:
       - ./target/*.jar
+    expire_in:  1 hour
+  except:
+    - /release-.*$/
+
+deploy:
+  image: maven:3-jdk-8
+  stage: deploy
+  script:
+    - echo "$MAVEN_CREDENTIALS" > /root/.m2/settings.xml
+    - mvn deploy -DskipTests
+  only:
+    - dev
+  artifacts:
+    paths:
+      - ./**/*.jar
     expire_in:  1 hour
 
 docker-backend:
