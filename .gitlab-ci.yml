@@ -99,3 +99,5 @@ docker hub:
      - docker build --pull -t streampipes/pe-examples-jvm .
      - docker push streampipes/pe-examples-jvm
   when: manual
+  only: 
+    - master
