@@ -89,3 +89,13 @@ finish release:
     - git push origin --all
     - git push origin --tags
   when: manual
+  
+docker hub:
+  image: docker:17.06.0-ce
+  stage: release
+  when: manual
+  script:
+     - docker login -u streampipesbuild -p $DOCKER_HUB_USER_PWD
+     - docker build --pull -t streampipes/pe-examples-jvm .
+     - docker push streampipes/pe-examples-jvm
+  when: manual
