@@ -25,8 +25,7 @@ import org.streampipes.sdk.helpers.EpRequirements;
 import org.streampipes.sdk.helpers.OutputStrategies;
 import org.streampipes.sdk.helpers.SupportedFormats;
 import org.streampipes.sdk.helpers.SupportedProtocols;
-import org.streampipes.wrapper.ConfiguredEventProcessor;
-import org.streampipes.wrapper.runtime.EventProcessor;
+import org.streampipes.wrapper.standalone.ConfiguredEventProcessor;
 import org.streampipes.wrapper.standalone.declarer.StandaloneEventProcessingDeclarer;
 
 import java.util.List;
@@ -46,7 +45,7 @@ public class ProjectionController extends StandaloneEventProcessingDeclarer<Proj
   }
 
   @Override
-  public ConfiguredEventProcessor<ProjectionParameters, EventProcessor<ProjectionParameters>>
+  public ConfiguredEventProcessor<ProjectionParameters>
   onInvocation(DataProcessorInvocation graph) {
 
     List<String> outputKeys = graph
