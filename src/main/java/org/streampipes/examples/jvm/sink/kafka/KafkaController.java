@@ -54,8 +54,8 @@ public class KafkaController extends StandaloneEventSinkDeclarer<KafkaParameters
 	}
 
 	@Override
-	public ConfiguredEventSink<KafkaParameters> onInvocation(DataSinkInvocation graph) {
-		DataSinkParameterExtractor extractor = DataSinkParameterExtractor.from(graph);
+	public ConfiguredEventSink<KafkaParameters> onInvocation(DataSinkInvocation graph,
+																													 DataSinkParameterExtractor extractor) {
 		String topic = extractor.singleValueParameter(TOPIC_KEY,
 						String.class);
 
