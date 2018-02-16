@@ -49,27 +49,65 @@ public enum PeJvmConfig implements PeConfig {
 
 	PeJvmConfig() {
 		config = SpConfig.getSpConfig(SERVICE_ID);
-		config.register(HOST, "pe-examples-jvm", "Hostname for the pe esper");
-		config.register(PORT, 8090, "Port for the pe esper");
 
-		config.register(ICON_HOST, "backend", "Hostname for the icon host");
+		/*
+		FOR CONFIGURING SERVICES VIA ENVIRONMENT VARIABLES
+     	*/
+		String peHost = System.getenv("PE_HOST");
+		String kafkaHost = System.getenv("KAFKA_HOST");
+		String zkHost = System.getenv("ZOOKEEPER_HOST");
+		String iconHost = System.getenv("ICON_HOST");
+		String nginxHost = System.getenv("STREAMPIPES_HOST");
+		String couchdbHost = System.getenv("COUCHDB_HOST");
+		String activemqHost = System.getenv("JMS_HOST");
+
+		if (peHost != null && !peHost.isEmpty())
+			config.register(HOST, peHost, "Hostname for the pe esper");
+		else
+			config.register(HOST, "pe-examples-jvm", "Hostname for the pe esper");
+
+		if (kafkaHost != null && !kafkaHost.isEmpty())
+			config.register(KAFKA_HOST, kafkaHost, "Host for kafka of the pe sinks project");
+		else
+			config.register(KAFKA_HOST, "kafka", "Host for kafka of the pe sinks project");
+
+		if ( zkHost != null && !zkHost.isEmpty())
+			config.register(ZOOKEEPER_HOST, zkHost, "Host for zookeeper of the pe sinks project");
+		else
+			config.register(ZOOKEEPER_HOST, "zookeeper", "Host for zookeeper of the pe sinks project");
+
+		if (iconHost != null && !iconHost.isEmpty())
+			config.register(ICON_HOST, iconHost, "Hostname for the icon host");
+		else
+			config.register(ICON_HOST, "backend", "Hostname for the icon host");
+
+		if (nginxHost != null && !nginxHost.isEmpty())
+			config.register(NGINX_HOST, nginxHost, "External hostname of StreamPipes Nginx");
+		else
+			config.register(NGINX_HOST, "localhost", "External port of StreamPipes Nginx");
+
+		if (couchdbHost != null && !couchdbHost.isEmpty())
+			config.register(COUCHDB_HOST, couchdbHost, "Host for couchdb of the pe sinks project");
+		else
+			config.register(COUCHDB_HOST, "couchdb", "Host for couchdb of the pe sinks project");
+
+		if (activemqHost != null && !activemqHost.isEmpty())
+			config.register(JMS_HOST, "tcp://" + activemqHost, "Hostname for pe actions service for active mq");
+		else
+			config.register(JMS_HOST, "tcp://activemq", "Hostname for pe actions service for active mq");
+
+		config.register(PORT, 8090, "Port for the pe esper");
 		config.register(ICON_PORT, 80, "Port for the icons in nginx");
-		config.register(NGINX_HOST, System.getenv("STREAMPIPES_HOST"), "External hostname of " +
-						"StreamPipes Nginx");
 		config.register(NGINX_PORT, 80, "External port of StreamPipes Nginx");
-		config.register(KAFKA_HOST, "kafka", "Host for kafka of the pe sinks project");
 		config.register(KAFKA_PORT, 9092, "Port for kafka of the pe sinks project");
-		config.register(ZOOKEEPER_HOST, "zookeeper", "Host for zookeeper of the pe sinks project");
 		config.register(ZOOKEEPER_PORT, 2181, "Port for zookeeper of the pe sinks project");
-		config.register(COUCHDB_HOST, "couchdb", "Host for couchdb of the pe sinks project");
 		config.register(COUCHDB_PORT, 5984, "Port for couchdb of the pe sinks project");
-		config.register(JMS_HOST, "tcp://activemq", "Hostname for pe actions service for active mq");
 		config.register(JMS_PORT, 61616, "Port for pe actions service for active mq");
 
 		config.register(SERVICE_NAME, "Examples JVM", "The name of the service");
 
 	}
-	
+
 	static {
 		serverUrl = PeJvmConfig.INSTANCE.getHost() + ":" + PeJvmConfig.INSTANCE.getPort();
 		iconBaseUrl = PeJvmConfig.INSTANCE.getIconHost() + ":" + PeJvmConfig.INSTANCE.getIconPort() +"/img/pe_icons";
